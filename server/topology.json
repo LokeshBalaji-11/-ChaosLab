@@ -1,0 +1,54 @@
+{
+  "services": {
+    "gateway": {
+      "name": "gateway",
+      "dependsOn": [
+        { "name": "auth", "type": "critical" },
+        { "name": "catalog", "type": "critical" },
+        { "name": "cart", "type": "critical" },
+        { "name": "orders", "type": "critical" }
+      ]
+    },
+    "auth": {
+      "name": "auth",
+      "dependsOn": [
+        { "name": "database", "type": "critical" }
+      ]
+    },
+    "catalog": {
+      "name": "catalog",
+      "dependsOn": [
+        { "name": "database", "type": "critical" }
+      ]
+    },
+    "cart": {
+      "name": "cart",
+      "dependsOn": [
+        { "name": "database", "type": "critical" },
+        { "name": "catalog", "type": "critical" }
+      ]
+    },
+    "payment": {
+      "name": "payment",
+      "dependsOn": [
+        { "name": "database", "type": "critical" }
+      ]
+    },
+    "orders": {
+      "name": "orders",
+      "dependsOn": [
+        { "name": "database", "type": "critical" },
+        { "name": "payment", "type": "critical" },
+        { "name": "notifications", "type": "optional" }
+      ]
+    },
+    "notifications": {
+      "name": "notifications",
+      "dependsOn": []
+    },
+    "database": {
+      "name": "database",
+      "dependsOn": []
+    }
+  }
+}

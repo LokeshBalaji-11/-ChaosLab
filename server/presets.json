@@ -1,0 +1,40 @@
+{
+  "presets": [
+    {
+      "name": "Database down",
+      "target": "database",
+      "failureType": "unavailable",
+      "analysis": {
+        "failureAnalysis": "Database outage causes cascading failure across auth, catalog, cart, payment, and orders.",
+        "riskEvaluator": { "severity": 10, "confidence": 0.99, "riskFactors": ["Complete data layer collapse"] },
+        "recoveryPlanner": { "steps": ["Restore database replica", "Restart database node"], "fallbacks": ["Read-only cache mode"] },
+        "critic": { "flagged": false, "reason": "All referenced services exist in topology graph." },
+        "source": "cached"
+      }
+    },
+    {
+      "name": "Payment slow",
+      "target": "payment",
+      "failureType": "latency",
+      "analysis": {
+        "failureAnalysis": "Payment latency propagates to orders and gateway, causing degraded checkout throughput.",
+        "riskEvaluator": { "severity": 7, "confidence": 0.95, "riskFactors": ["High checkout latency"] },
+        "recoveryPlanner": { "steps": ["Scale payment gateway workers", "Enable asynchronous order queue"], "fallbacks": ["Direct payment retry"] },
+        "critic": { "flagged": false, "reason": "All referenced services exist in topology graph." },
+        "source": "cached"
+      }
+    },
+    {
+      "name": "Auth down",
+      "target": "auth",
+      "failureType": "unavailable",
+      "analysis": {
+        "failureAnalysis": "Auth service failure blocks gateway authentication checks, failing user sessions.",
+        "riskEvaluator": { "severity": 8, "confidence": 0.97, "riskFactors": ["Total authentication block"] },
+        "recoveryPlanner": { "steps": ["Restart auth pod", "Check token store connection"], "fallbacks": ["Fallback token cache"] },
+        "critic": { "flagged": false, "reason": "All referenced services exist in topology graph." },
+        "source": "cached"
+      }
+    }
+  ]
+}

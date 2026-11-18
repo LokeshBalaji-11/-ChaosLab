@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "commonjs",
+    "lib": ["es2022", "dom"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react-jsx",
+    "outDir": "./dist"
+  },
+  "ts-node": {
+    "transpileOnly": true
+  },
+  "include": ["server/**/*", "src/client/**/*", "tests/**/*"]
+}
